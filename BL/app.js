@@ -4,23 +4,29 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const cors = require('cors');
-const cookieParser = require("cookie-parser");
-const errorHandler = require("./middleware/error");
+var cors = require('cors');
+
+
+
 
 // import routes
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
-// Database connection
+const cookieParser = require("cookie-parser");
+const errorHandler = require("./middleware/error");
+
+//database connection
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-
+    useCreateIndex: true,
+    useFindAndModify: false
 })
     .then(() => console.log("DB connected"))
     .catch((err) => console.log(err));
 
-// Middleware
+//MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(bodyParser.urlencoded({
@@ -30,16 +36,20 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(cors());
 
-// Routes Middleware
-app.use('/api', authRoutes);
 
-// Error middleware
+//ROUTES MIDDLEWARE
+// app.get('/', (req, res) => {
+//     res.send("Hello from Node Js");
+// })
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+
+// error middleware
 app.use(errorHandler);
 
-// Port
-const port = process.env.PORT || 9000;
+//port
+const port = process.env.PORT || 9000
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

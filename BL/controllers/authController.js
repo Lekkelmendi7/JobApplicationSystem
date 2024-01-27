@@ -58,12 +58,23 @@ const sendTokenResponse = async (user, codeStatus, res) => {
     .json({ success: true, token, user })
 }
 
-// dalja nga faqja
+//logout
 
-exports.logout = (req, res, next) => {
-    res.clearCookie('token');
+exports.logout = async (req, res, next) => {
+   res.clearCookie('token');
     res.status(200).json({
         success: true,
         message: 'Logget out'
+    })
+}
+
+
+// user profili
+
+exports.userProfile = async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('-password');
+    res.status(200).json({
+        success: true,
+        user
     })
 }
