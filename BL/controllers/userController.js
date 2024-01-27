@@ -11,7 +11,7 @@ exports.allUsers = async (req, res, next) => {
 
     try {
         const users = await User.find().sort({createdAt: - 1}).select('-password')
-        .skip(pageSiza * (page -1))
+        .skip(pageSize * (page -1))
         .limit(pageSize)
 
         res.status(200).json({
@@ -64,7 +64,7 @@ exports.editUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     try {
-        const user = await User.findByIdAndRemove(req.params.id);
+        const user = await User.findByIdAndDelete(req.params.id);
         res.status(200).json({
             success: true,
             message: "user deleted"
