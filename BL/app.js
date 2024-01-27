@@ -8,14 +8,14 @@ const cors = require('cors');
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
 
-
-//import routes
+// import routes
 const authRoutes = require('./routes/authRoutes');
 
 // Database connection
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+
 })
     .then(() => console.log("DB connected"))
     .catch((err) => console.log(err));
@@ -30,10 +30,10 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(cors());
 
-//Routes Middleware
+// Routes Middleware
 app.use('/api', authRoutes);
 
-//error middleware
+// Error middleware
 app.use(errorHandler);
 
 // Port

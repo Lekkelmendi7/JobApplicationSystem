@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js"
   },
-  "author": "Alba Shala, Leke Kelmendi",
+  "author": "Alba Shala, Lekë Kelmendi",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
