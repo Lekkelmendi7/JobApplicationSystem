@@ -13,7 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import WorkIcon from '@mui/icons-material/Work';
 import { Link } from 'react-router-dom';
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@mui/material/styles';
+
 
 const pages = ['Home', 'Log In'];
 
