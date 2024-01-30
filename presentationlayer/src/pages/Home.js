@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../component/Navbar.tsx'
+import Navbar from '../component/Navbar.js'
 import Header from '../component/Header'
 import { Box, Card, Container, ListItemIcon, MenuItem, MenuList, Pagination, Stack, Typography, useTheme } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
