@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import { loadJobReducer, loadJobSingleReducer } from './reducers/jobReducer';
 import { loadJobTypeReducer } from './reducers/jobTypeReducer';
-import { userReducerLogout, userReducerProfile, userReducerSignIn } from './reducers/userReducer';
+import { userApplyJobReducer, userReducerLogout, userReducerProfile, userReducerSignIn } from './reducers/userReducer';
 
 //combine reducers
 const reducer = combineReducers({
@@ -12,7 +12,8 @@ const reducer = combineReducers({
     signIn: userReducerSignIn,
     logOut: userReducerLogout,
     userProfile: userReducerProfile,
-    singleJob: loadJobSingleReducer
+    singleJob: loadJobSingleReducer,
+    useJobApplication: userApplyJobReducer
 });
 
 
