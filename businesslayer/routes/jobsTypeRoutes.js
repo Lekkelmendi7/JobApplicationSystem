@@ -19,4 +19,8 @@ router.delete('/type/delete/:type_id', isAuthenticated, isAdmin, deleteJobType)
 
 
 
+
+
+
+
 module.exports = router;

@@ -2,6 +2,7 @@
 const User = require('../models/userModel');
 const ErrorResponse = require('../utils/errorResponse');
 
+
 exports.signup = async (req, res, next) => {
     const { email } = req.body;
     const userExist = await User.findOne({ email });
@@ -52,27 +53,31 @@ exports.signin = async (req, res, next) => {
 
 const sendTokenResponse = async (user, codeStatus, res) => {
     const token = await user.getJwtToken();
-    res 
-    .status(codeStatus)
-    .cookie('token', token, {maxAge: 60 * 60 * 1000, httpOnly: true })
-    .json({ success: true, token, user })
+    res
+        .status(codeStatus)
+        .cookie('token', token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+        .json({
+            success: true,
+            role: user.role
+        })
 }
 
-//logout
 
-exports.logout = async (req, res, next) => {
-   res.clearCookie('token');
+// log out
+exports.logout = (req, res, next) => {
+    res.clearCookie('token');
     res.status(200).json({
         success: true,
-        message: 'Logget out'
+        message: "logged out"
     })
 }
 
 
-// user profili
-
+// user profile
 exports.userProfile = async (req, res, next) => {
+
     const user = await User.findById(req.user.id).select('-password');
+
     res.status(200).json({
         success: true,
         user
