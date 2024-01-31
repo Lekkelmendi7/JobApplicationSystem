@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 import {
+    ALL_USER_LOAD_FAIL,
+    ALL_USER_LOAD_REQUEST,
+    ALL_USER_LOAD_SUCCESS,
     USER_APPLY_JOB_FAIL,
     USER_APPLY_JOB_REQUEST,
     USER_APPLY_JOB_SUCCESS,
@@ -76,8 +79,25 @@ export const userProfileAction = () => async (dispatch) => {
 }
 
 
-//user job apply action
+//all user action
+export const allUserAction = () => async (dispatch) => {
+    dispatch({ type: ALL_USER_LOAD_REQUEST });
+    try {
+        const { data } = await axios.get("/api/allusers");
+        dispatch({
+            type: ALL_USER_LOAD_SUCCESS,
+            payload: data
+        });
 
+    } catch (error) {
+        dispatch({
+            type: ALL_USER_LOAD_FAIL,
+            payload: error.response.data.error
+        });
+    }
+}
+
+//user job apply action
 export const userApplyJobAction = (job) => async (dispatch) => {
     dispatch({ type: USER_APPLY_JOB_REQUEST });
     try {

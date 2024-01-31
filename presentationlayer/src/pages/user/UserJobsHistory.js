@@ -1,12 +1,12 @@
 import { Typography } from '@mui/material'
 import { Box } from '@mui/material'
 import React from 'react'
-import {  useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import CardElement from '../../component/CardElement'
+
 
 const UserJobsHistory = () => {
     const { user } = useSelector(state => state.userProfile);
-
 
 
     return (
