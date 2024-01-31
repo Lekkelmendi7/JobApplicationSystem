@@ -18,7 +18,7 @@ const validationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(6, 'Password should be of minimum 6 characters length')
+        .min(8, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
 
@@ -27,11 +27,20 @@ const validationSchema = yup.object({
 const LogIn = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isAuthenticated } = useSelector(state => state.signIn);
+    const { isAuthenticated, userInfo } = useSelector(state => state.signIn);
     useEffect(() => {
+
         if (isAuthenticated) {
-            navigate('/user/dashboard');
+            if (userInfo.role === 1) {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/user/dashboard');
+            }
         }
+
+        // if (isAuthenticated) {
+        //     navigate('/user/dashboard');
+        // }
     }, [isAuthenticated])
 
     const formik = useFormik({
