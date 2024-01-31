@@ -1,17 +1,23 @@
 const express = require('express');
-const router = express.Router();
 const { signup, signin, logout, userProfile } = require('../controllers/authController');
 const { isAuthenticated } = require('../middleware/auth');
 
+class AuthRouter {
+    constructor() {
+        this.router = express.Router();
+        this.setupRoutes();
+    }
 
-//auth routes
-// /api/signup
-router.post('/signup', signup);
-// /api/signin
-router.post('/signin', signin);
-// /api/logout
-router.get('/logout', logout);
-// /api/me
-router.get('/me', isAuthenticated, userProfile);
+    setupRoutes() {
+        this.router.post('/signup', signup);
+        this.router.post('/signin', signin);
+        this.router.get('/logout', logout);
+        this.router.get('/me', isAuthenticated, userProfile);
+    }
 
-module.exports = router;
+    getRouter() {
+        return this.router;
+    }
+}
+
+module.exports = AuthRouter;
