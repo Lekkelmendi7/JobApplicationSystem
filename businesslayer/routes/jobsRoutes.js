@@ -1,19 +1,23 @@
 const express = require('express');
-const JobsController = require('../controllers/jobsController');
+const router = express.Router();
+const { createJob, singleJob, updateJob, showJobs, deleteJob } = require('../controllers/jobsController');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
-class JobRoutes {
-  constructor() {
-    this.router = express.Router();
-    this.init();
-  }
 
-  init() {
-    this.router.get('/', JobsController.showJobs);
-    this.router.get('/:id', JobsController.singleJob);
-    this.router.post('/', JobsController.createJob);
-    this.router.put('/:id', JobsController.updateJob);
-    this.router.delete('/:id', JobsController.deleteJob);
-  }
-}
 
-module.exports = JobRoutes;
+//jobs routes
+
+// /api/job/create
+router.post('/job/create', isAuthenticated, isAdmin, createJob);
+// /api/job/id
+router.get('/job/:id', singleJob);
+// /api/job/update/job_id
+router.put('/job/update/:job_id', isAuthenticated, isAdmin, updateJob);
+// /api/job/delete/job_id
+router.delete('/job/delete/:job_id', isAuthenticated, isAdmin, deleteJob);
+// /api/jobs/show
+router.get('/jobs/show', showJobs);
+
+
+
+module.exports = router;

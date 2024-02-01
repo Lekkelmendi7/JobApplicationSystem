@@ -1,37 +1,32 @@
-const ErrorResponse = require('../utils/errorResponse');
+const ErrorResponse = require("../utils/errorResponse");
 
-class ErrorHandler {
-  constructor(err, req, res, next) {
-    this.err = err;
-    this.req = req;
-    this.res = res;
-    this.next = next;
-  }
+const errorHandler = (err, req, res, next) => {
 
-  handleError() {
-    let error = { ...this.err };
-    error.message = this.err.message;
+    let error = { ...err };
+    error.message = err.message;
 
-    if (this.err.name === 'CastError') {
-      const message = `Resource not found ${this.err.value}`;
-      error = new ErrorResponse(message, 404);
+    if (err.name === "CastError") {
+        const message = `Ressource not found ${err.value}`;
+        error = new ErrorResponse(message, 404);
     }
 
-    if (this.err.code === 11000) {
-      const message = 'Duplicate value entered';
-      error = new ErrorResponse(message, 400);
+    //Mongoose duplicate value
+    if (err.code === 11000) {
+        const message = "Duplicate field value entered";
+        error = new ErrorResponse(message, 400);
     }
 
-    if (this.err.name === 'ValidationError') {
-      const message = Object.values(this.err.errors).map(val => '' + val.message);
-      error = new ErrorResponse(message, 400);
+    //Mongoose validation error
+    if (err.name === "ValidationError") {
+        const message = Object.values(err.errors).map(val => ' ' + val.message);
+        error = new ErrorResponse(message, 400);
     }
 
-    this.res.status(error.codeStatus || 500).json({
-      success: false,
-      error: error.message || 'server error'
-    });
-  }
+    res.status(error.codeStatus || 500).json({
+        success: false,
+        error: error.message || "server error"
+    })
+
 }
 
-module.exports = ErrorHandler;
+module.exports = errorHandler;

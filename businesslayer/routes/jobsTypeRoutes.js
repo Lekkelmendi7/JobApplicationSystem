@@ -1,20 +1,26 @@
 const express = require('express');
-const JobTypeController = require('../controllers/jobsTypeController');
+const router = express.Router();
+const { createJobType, allJobsType, updateJobType, deleteJobType } = require('../controllers/jobsTypeController');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
-class JobTypeRoutes {
-  constructor() {
-    this.router = express.Router();
-    this.init();
-  }
 
-  init() {
-    const jobTypeController = new JobTypeController(); // create an instance
-    this.router.get('/', jobTypeController.allJobsType);
-    this.router.get('/:id', jobTypeController.getJobTypeById);
-    this.router.post('/', jobTypeController.createJobType);
-    this.router.put('/:type_id', jobTypeController.updateJobType);
-    this.router.delete('/:type_id', jobTypeController.deleteJobType);
-  }
-}
 
-module.exports = JobTypeRoutes;
+//job type routes
+
+// /api/type/create
+router.post('/type/create', isAuthenticated, isAdmin, createJobType)
+// /api/type/jobs
+router.get('/type/jobs', allJobsType)
+// /api/type/update/type_id
+router.put('/type/update/:type_id', isAuthenticated, isAdmin, updateJobType)
+// /api/type/delete/type_id
+router.delete('/type/delete/:type_id', isAuthenticated, isAdmin, deleteJobType)
+
+
+
+
+
+
+
+
+module.exports = router;

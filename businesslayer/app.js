@@ -7,24 +7,18 @@ require("dotenv").config();
 var cors = require('cors');
 
 // Import the Database class
-const Database = require('./database');
+const Database = require('./dataaccesslayer/database');
 const db = new Database();
 
-// Import the route classes
-const UserRoutes = require('./routes/userRoutes');
-const JobTypeRoutes = require('./routes/jobsTypeRoutes');
-const JobRoutes = require('./routes/jobsRoutes');
-const AuthRouter = require('./routes/authRoutes');
-
-// Use the route classes
-const userRoutes = new UserRoutes().router;
-const authRouter = new AuthRouter().getRouter();
-const jobTypeRoutes = new JobTypeRoutes().router;
-const jobRoutes = new JobRoutes().router;
-
+// import routes
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const jobTypeRoute = require('./routes/jobsTypeRoutes');
+const jobRoute = require('./routes/jobsRoutes');
 
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/error");
+
 
 // MIDDLEWARE
 app.use(morgan('dev'));
@@ -34,10 +28,10 @@ app.use(cookieParser());
 app.use(cors());
 
 // ROUTES MIDDLEWARE
-app.use('/api', authRouter);
+app.use('/api', authRoutes);
 app.use('/api', userRoutes);
-app.use('/api/jobtypes', jobTypeRoutes);
-app.use('/api/jobs', jobRoutes);
+app.use('/api', jobTypeRoute);
+app.use('/api', jobRoute);
 
 // error middleware
 app.use(errorHandler);

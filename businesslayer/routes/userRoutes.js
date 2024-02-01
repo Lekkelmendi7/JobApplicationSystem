@@ -1,20 +1,23 @@
 const express = require('express');
-const UserController = require('../controllers/userController');
 const router = express.Router();
+const { allUsers, singleUser, editUser, deleteUser, createUserJobsHistory } = require('../controllers/userController');
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
-class UserRoutes {
-  constructor() {
-    this.router = express.Router();
-    this.init();
-  }
 
-  init() {
-    this.router.get('/', UserController.allUsers);
-    this.router.get('/:id', UserController.singleUser);
-    this.router.post('/', UserController.createUser);
-    this.router.put('/:id', UserController.editUser);
-    this.router.delete('/:id', UserController.deleteUser);
-  }
-}
+//user routes
 
-module.exports = UserRoutes;
+// /api/allusers
+router.get('/allusers', isAuthenticated, isAdmin, allUsers);
+// /api/user/id
+router.get('/user/:id', isAuthenticated, singleUser);
+// /api/user/edit/id
+router.put('/user/edit/:id', isAuthenticated, editUser);
+// /api/admin/user/delete/id
+router.delete('/admin/user/delete/:id', isAuthenticated, isAdmin, deleteUser);
+// /api/user/jobhistory
+router.post('/user/jobhistory', isAuthenticated, createUserJobsHistory);
+
+
+
+
+module.exports = router;
